@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
-import { supabase, type Note } from '@/lib/supabase'
+import { supabase, type Note, isSupabaseConfigured } from '@/lib/supabase'
 import { PlusCircle, Save, FileText, Edit3, Trash2 } from 'lucide-react'
 import { toast } from 'react-hot-toast'
 import ConnectionStatus from './ConnectionStatus'
@@ -18,7 +18,7 @@ export default function LiveNotepad() {
   // Fetch all notes
   const fetchNotes = useCallback(async () => {
     // Skip if we're in build mode or Supabase is not configured
-    if (typeof window === 'undefined' || !process.env.NEXT_PUBLIC_SUPABASE_URL) {
+    if (typeof window === 'undefined' || !isSupabaseConfigured()) {
       return
     }
 
@@ -47,7 +47,7 @@ export default function LiveNotepad() {
     }
 
     // Check if Supabase is configured
-    if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+    if (!isSupabaseConfigured()) {
       toast.error('Database not configured. Please set up Supabase environment variables.')
       return
     }
@@ -152,7 +152,7 @@ export default function LiveNotepad() {
   // Set up real-time subscription
   useEffect(() => {
     // Skip if we're in build mode or Supabase is not configured
-    if (typeof window === 'undefined' || !process.env.NEXT_PUBLIC_SUPABASE_URL) {
+    if (typeof window === 'undefined' || !isSupabaseConfigured()) {
       return
     }
 
