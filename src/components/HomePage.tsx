@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { Toaster } from 'react-hot-toast'
 import LiveNotepad from '@/components/LiveNotepad'
 import FileDownload from '@/components/FileDownload'
+import DebugSupabase from '@/components/DebugSupabase'
 import { FileText, Download } from 'lucide-react'
 
 export default function HomePage() {
@@ -55,6 +56,11 @@ export default function HomePage() {
 
       {/* Main Content */}
       <main className="py-8">
+        {/* Debug Info - Remove after testing */}
+        <div className="max-w-7xl mx-auto px-6 mb-6">
+          <DebugSupabase />
+        </div>
+        
         {activeTab === 'notepad' ? (
           <LiveNotepad />
         ) : (
