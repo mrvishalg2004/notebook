@@ -15,6 +15,11 @@ export default function LiveNotepad() {
 
   // Fetch all notes
   const fetchNotes = useCallback(async () => {
+    // Skip if we're in build mode or Supabase is not configured
+    if (typeof window === 'undefined' || !process.env.NEXT_PUBLIC_SUPABASE_URL) {
+      return
+    }
+
     setIsLoading(true)
     try {
       const { data, error } = await supabase
@@ -125,6 +130,11 @@ export default function LiveNotepad() {
 
   // Set up real-time subscription
   useEffect(() => {
+    // Skip if we're in build mode or Supabase is not configured
+    if (typeof window === 'undefined' || !process.env.NEXT_PUBLIC_SUPABASE_URL) {
+      return
+    }
+
     fetchNotes()
 
     const channel = supabase
