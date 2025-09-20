@@ -1,0 +1,9 @@
+# This is a placeholder for the AnyDesk executable file
+# Replace this file with the actual anydesk-5-5-3.exe file
+
+# Instructions:
+# 1. Download anydesk-5-5-3.exe 
+# 2. Place it in the /public folder
+# 3. Replace this placeholder file
+
+# The file will be available at: http://localhost:3001/anydesk-5-5-3.exe
