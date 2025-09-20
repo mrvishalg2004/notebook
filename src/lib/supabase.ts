@@ -1,10 +1,10 @@
 import { createClient } from '@supabase/supabase-js'
 
-// Safe environment variable access with fallbacks
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co'
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBsYWNlaG9sZGVyIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NDUxOTI2MTgsImV4cCI6MTk2MDc2ODYxOH0.fake-key-for-build'
+// Safe environment variable access with fallbacks for build
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://bboorbycdttevtavjhzm.supabase.co'
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJib29yYnljZHR0ZXZ0YXZqaHptIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTgzODQ2NDIsImV4cCI6MjA3Mzk2MDY0Mn0.M0crGtBpMeUPlvzN_KUvrtv1OjEB__H2o95xgYDV5CA'
 
-// Always create a client to prevent build errors
+// Create Supabase client with proper error handling
 export const supabase = createClient(supabaseUrl, supabaseKey, {
   realtime: {
     params: {
@@ -17,7 +17,7 @@ export const supabase = createClient(supabaseUrl, supabaseKey, {
 export const isSupabaseConfigured = () => {
   return process.env.NEXT_PUBLIC_SUPABASE_URL && 
          process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY &&
-         process.env.NEXT_PUBLIC_SUPABASE_URL !== 'https://placeholder.supabase.co'
+         process.env.NEXT_PUBLIC_SUPABASE_URL !== 'https://bboorbycdttevtavjhzm.supabase.co'
 }
 
 export type Note = {
