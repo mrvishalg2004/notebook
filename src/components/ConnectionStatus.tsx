@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { supabase, isSupabaseConfigured } from '@/lib/supabase'
+import { supabase } from '@/lib/supabase'
 import { toast } from 'react-hot-toast'
 import { AlertTriangle, CheckCircle, Database, Settings } from 'lucide-react'
 
@@ -14,16 +14,7 @@ export default function ConnectionStatus() {
     setErrorMessage('')
 
     try {
-      // Check if environment variables are set
-      console.log('Environment check:')
-      console.log('NEXT_PUBLIC_SUPABASE_URL:', process.env.NEXT_PUBLIC_SUPABASE_URL ? 'Set' : 'Not set')
-      console.log('NEXT_PUBLIC_SUPABASE_ANON_KEY:', process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ? 'Set' : 'Not set')
-      
-      if (!isSupabaseConfigured()) {
-        throw new Error(`Supabase environment variables are not configured. URL: ${process.env.NEXT_PUBLIC_SUPABASE_URL ? 'Set' : 'Missing'}, Key: ${process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ? 'Set' : 'Missing'}`)
-      }
-
-      console.log('Testing connection to:', process.env.NEXT_PUBLIC_SUPABASE_URL)
+      console.log('Testing Supabase connection...')
 
       // Test database connection by trying to select from notes table
       const { data, error } = await supabase
