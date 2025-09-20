@@ -5,6 +5,7 @@ import { supabase, type Note } from '@/lib/supabase'
 import { PlusCircle, Save, FileText, Edit3, Trash2 } from 'lucide-react'
 import { toast } from 'react-hot-toast'
 import ConnectionStatus from './ConnectionStatus'
+import EnvDebugger from './EnvDebugger'
 
 export default function LiveNotepad() {
   const [notes, setNotes] = useState<Note[]>([])
@@ -193,6 +194,7 @@ export default function LiveNotepad() {
         </button>
       </div>
 
+      <EnvDebugger />
       <ConnectionStatus />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
