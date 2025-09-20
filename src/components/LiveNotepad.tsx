@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from 'react'
 import { supabase, type Note } from '@/lib/supabase'
 import { PlusCircle, Save, FileText, Edit3, Trash2 } from 'lucide-react'
 import { toast } from 'react-hot-toast'
+import ConnectionStatus from './ConnectionStatus'
 
 export default function LiveNotepad() {
   const [notes, setNotes] = useState<Note[]>([])
@@ -44,11 +45,18 @@ export default function LiveNotepad() {
       return
     }
 
+    // Check if Supabase is configured
+    if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+      toast.error('Database not configured. Please set up Supabase environment variables.')
+      return
+    }
+
     setIsSaving(true)
     try {
       if (activeNote) {
         // Update existing note
-        const { error } = await supabase
+        console.log('Updating note:', activeNote.id)
+        const { data, error } = await supabase
           .from('notes')
           .update({
             title: title || 'Untitled Note',
@@ -56,19 +64,30 @@ export default function LiveNotepad() {
             updated_at: new Date().toISOString()
           })
           .eq('id', activeNote.id)
+          .select()
 
-        if (error) throw error
+        if (error) {
+          console.error('Update error:', error)
+          throw new Error(`Failed to update note: ${error.message}`)
+        }
+        console.log('Note updated:', data)
         toast.success('Note updated successfully!')
       } else {
         // Create new note
-        const { error } = await supabase
+        console.log('Creating new note...')
+        const { data, error } = await supabase
           .from('notes')
           .insert({
             title: title || 'Untitled Note',
             content: content
           })
+          .select()
 
-        if (error) throw error
+        if (error) {
+          console.error('Insert error:', error)
+          throw new Error(`Failed to create note: ${error.message}`)
+        }
+        console.log('Note created:', data)
         toast.success('Note created successfully!')
         setTitle('')
         setContent('')
@@ -78,7 +97,8 @@ export default function LiveNotepad() {
       fetchNotes()
     } catch (error) {
       console.error('Error saving note:', error)
-      toast.error('Failed to save note')
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error'
+      toast.error(`Failed to save note: ${errorMessage}`)
     } finally {
       setIsSaving(false)
     }
@@ -172,6 +192,8 @@ export default function LiveNotepad() {
           New Note
         </button>
       </div>
+
+      <ConnectionStatus />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Notes List */}
